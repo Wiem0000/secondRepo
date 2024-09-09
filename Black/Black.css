@@ -1,0 +1,25 @@
+* { /*  cible les element lkol*/
+ 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ body {
+    background-color:white;
+
+ }
+
+ 
+ nav {
+    text-align: center;
+    
+ }
+ 
+ a:hover{
+    color: gray;
+ }
+ nav a {
+    text-decoration: none;
+    color: black;
+
+ }
