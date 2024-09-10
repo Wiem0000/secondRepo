@@ -86,9 +86,7 @@ var Jeans = MakeProduct("Jeans");
 var Sweats = MakeProduct("Sweats");
 var Accessoires = MakeProduct("Accessoires");
 
-
-
-// Ajout des produits aux catégories
+// Ajout des produits aux catégories avec les nouveaux liens d'images
 Tshirt.addProduct("White inscription", 50, "S-M-L-XL-XXL", "T-shirt", [
   "../image/White/inscription-removebg-preview.png",
   "../image/White/inscription1-removebg-preview.png",
@@ -125,7 +123,7 @@ Jeans.addProduct("White jeans", 89, "36-44", "Jeans", [
   "../image/White/7686504251_2_20_0-removebg-preview.png",
 ]);
 
-Shoes.addProduct("White  tinnes", 150, "40-46", "Shoes", [
+Shoes.addProduct("White tinnes", 150, "40-46", "Shoes", [
   "../image/White/2213340001_2_2_0-removebg-preview.png",
   "../image/White/Tennis-removebg-preview.png",
 ]);
@@ -140,7 +138,6 @@ Shoes.addProduct("White surpiqûres", 120, "40-46", "Shoes", [
 Shoes.addProduct("White street", 180, "40-46", "Shoes", [
   "../image/White/street-removebg-preview.png",
   "../image/White/street1-removebg-preview.png",
-
 ]);
 
 // Fonction pour afficher un produit
@@ -153,17 +150,13 @@ function displayOne(obj, container) {
       <p class="size">Size : ${obj.size}</p>
       <p class="Category">Category : ${obj.category}</p>
       <button class="add-to-cart" data-id="${obj.id}">Add to Cart</button>
-
     </div>
   `);
   
   $(`#img${obj.id}`).on('click', function () {
     toggleImage(obj);
   });
-
-
- 
-} 
+}
 
 function displayAll(array, container) {
   $(container).empty(); // nafregh el container 
@@ -176,7 +169,6 @@ function displayAll(array, container) {
 displayAll(Tshirt.list, '.Tshirt');
 displayAll(Jeans.list, '.Jeans');
 displayAll(Shoes.list, '.shoes');
-
 
 $(".imgs").css({ width: "250px", height: "250px" });
 
@@ -228,20 +220,22 @@ function search() {
   results = results.concat(Shoes.displayByCat(cat));
   
   if (results.length > 0) {
-  
+    $("#Container").removeClass("container").addClass("container");
+    displayAll(results, "#Container");  
+  }   if (results.length > 0) {
     $("#Container").removeClass("container").addClass("container");
     displayAll(results, "#Container");  
   } else {
-    $("#Container").append("<p>No products found in this category.</p>");  
+    $("#Container").append("<p>No products found in this category.</p>"); 
   }
 }
+
 
 $("#search").on("click", function () {
   search();
 });
 
-///partie admmin
-
+// Partie admin
 $("body").append("<button id='manager'>Manager Interface</button>");
 
 $("body").append(`
@@ -252,12 +246,10 @@ $("body").append(`
     <input id='category' placeholder='Category'>
     <input id='images' placeholder='Images (comma separated)'>
     <input id='id-to-remove' placeholder='ID to Remove'>
-   
     <button id='add'>Add Item</button>
     <button id='remove'>Remove Item</button>
-*  </div>
+  </div>
 `);
-
 
 $("#manager").on("click", function () {
   $("#manager-div").toggle();
@@ -265,40 +257,31 @@ $("#manager").on("click", function () {
 
 $("#add").on("click", function () {
   var name = $("#name").val();
-  var price = parseFloat($("#price").val());
-  var size = $("#size").val().;
+  var price =("#price").val();
+  var size = $("#size").val();
   var category = $("#category").val();
   var images = $("#images").val().split(",");
   
-
-    if (category === "T-shirt") {
-      Tshirt.addProduct(name, price, size, category, images);
-      displayAll(Tshirt.list, '.Tshirt');
-    } else if (category === "Jeans") {
-      Jeans.addProduct(name, price, size, category, images);
-      displayAll(Jeans.list, '.Jeans');
-    } else if (category === "Shoes") {
-      Shoes.addProduct(name, price, size, category, images);
-      displayAll(Shoes.list, '.shoes');
-    }
-  } 
-
-);
-
-
-$("#remove").on("click", function () {
-  var idToRemove = parseInt($("#id-to-remove").val().trim());
-  
-  if (!isNaN(idToRemove)) {
-    Tshirt.removeProduct(idToRemove);
-    Jeans.removeProduct(idToRemove);
-    Shoes.removeProduct(idToRemove);
-    
-    displayAll(Tshirt.list, '.Tshirt');
-    displayAll(Jeans.list, '.Jeans');
-    displayAll(Shoes.list, '.shoes');
-  } else {
-    alert("Please enter a valid ID to remove.");
+  if (category === "T-shirt") {
+    Tshirt.addProduct(name, price, size, category, images);
+    displayAll(Tshirt.list, ".Tshirt");
+  } else if (category === "Jeans") {
+    Jeans.addProduct(name, price, size, category, images);
+    displayAll(Jeans.list, ".Jeans");
+  } else if (category === "Shoes") {
+    Shoes.addProduct(name, price, size, category, images);
+    displayAll(Shoes.list, ".shoes");
   }
 });
 
+$("#remove").on("click", function () {
+  var id = $("#id-to-remove").val();
+  
+  Tshirt.removeProduct(id);
+  Jeans.removeProduct(id);
+  Shoes.removeProduct(id);
+
+  displayAll(Tshirt.list, ".Tshirt");
+  displayAll(Jeans.list, ".Jeans");
+  displayAll(Shoes.list, ".shoes");
+});
