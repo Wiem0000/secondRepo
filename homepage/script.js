@@ -5,6 +5,6 @@ $('#black').click(function() {
 
 
 $('#white').click(function() {
-    window.location.href = '../White/White.html'; 
+    window.location.href = '../black/black.html'; 
 });
 
